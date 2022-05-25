@@ -56,6 +56,13 @@ Let's go through the process of using the bot.
 6. The server status should automatically change when the server is online.
 7. You can use `kill` to force-stop the server. This should _not_ be used as a replacement for **-stop**.
 
+### Security
+**Q:** Is this safe?
+**A:** Yes. This script does not make any outside connections other than Discord.
+
+**Q:** How do I know only my bot can access the script?
+**A:** Your bot ID links ONLY to your bot. As long as your bot ID doesn't get out, you should be fine.
+
 ## Known bugs
 - The bot cannot detect a server that is already running. **This is impossible to do with the current implementation.**
 - The bot cannot detect when the server has been -stopped. You must kill it (although this is safe to do once it has shut down).
