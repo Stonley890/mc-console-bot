@@ -7,12 +7,13 @@ A script that lets you control your Minecraft server using a Discord bot.
 - Allow users to send messages to Minecraft from Discord and vise versa
 
 ## Installation
-### 1. Download the file.
-1. Download the script from the repository.
+### 1. Download the file
+1. Download the [script](console-bot.js) from the repository.
 
 ### 2. Prepare Discord
-1. Create two text channels: one for your game chat, and one for console output. Create a voice channel to show whether the server is online or shut down. 
-2. Also create a role that you want to allow access to console commands.
+1. Create two text channels: one for your game chat, and one for console output.
+2. Create a voice channel to show whether the server is online or shut down. 
+3. Create a role that you want to allow access to console commands.
 
 ### 3. Create a bot
 1. Go to https://discord.com/developers/applications and create a new application. Give it any name, description, or icon.
@@ -23,9 +24,9 @@ A script that lets you control your Minecraft server using a Discord bot.
 ### 4. Edit the script
 1. Open the script using a text editor.
 2. Find `var MC_SERVER_START_SCRIPT`. Replace `C:/Users/username/start.bat` with the full path to your start.bat, start.sh, or start.command file.
-  - _If you don't have a start command file, look up a tutorial on how to create a start script for your server._
+   - _If you don't have a start command file, look up a tutorial on how to create a start script for your server._
 3. Find `var gamechat`. Replace `<ID_HERE_WITHOUT_BRACKETS>` with the ID of your game chat channel.
-  - _To find the ID of an object in Discord, turn on _Developer Mode_ in Discord settings and right click the object you want the ID of. Click **Copy ID**._
+   - _To find the ID of an object in Discord, turn on _Developer Mode_ in Discord settings and right click the object you want the ID of. Click **Copy ID**._
 4. Find `var serverstatus`. Replace `<ID_HERE_WITHOUT_BRACKETS>` with the ID of your server status voice channel.
 5. Find `var consolemaster`. Replace `<NAME_HERE_WITHOUT_BRACKETS>` with the name of the role you want to allow access to console commands.
 6. Go to the bottom of the script. Replace `<BOT_TOKEN_WITHOUT_BRACKETS>` with the application ID you found earlier.
