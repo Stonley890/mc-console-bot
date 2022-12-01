@@ -12,8 +12,7 @@ A script that lets you control your Minecraft server using a Discord bot.
 
 ### 2. Prepare Discord
 1. Create two text channels: one for your game chat, and one for console output.
-2. Create a voice channel to show whether the server is online or shut down. 
-3. Create a role that you want to allow access to console commands.
+2. Create a role that you want to allow access to console commands.
 
 ### 3. Create a bot
 1. Go to https://discord.com/developers/applications and create a new application. Give it any name, description, or icon.
