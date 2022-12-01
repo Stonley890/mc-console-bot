@@ -27,9 +27,8 @@ A script that lets you control your Minecraft server using a Discord bot.
    - _If you don't have a start command file, look up a tutorial on how to create a start script for your server._
 3. Find `var gamechat`. Replace `<ID_HERE_WITHOUT_BRACKETS>` with the ID of your game chat channel.
    - _To find the ID of an object in Discord, turn on _Developer Mode_ in Discord settings and right click the object you want the ID of. Click **Copy ID**._
-4. Find `var serverstatus`. Replace `<ID_HERE_WITHOUT_BRACKETS>` with the ID of your server status voice channel.
-5. Find `var consolemaster`. Replace `<NAME_HERE_WITHOUT_BRACKETS>` with the name of the role you want to allow access to console commands.
-6. Go to the bottom of the script. Replace `<BOT_TOKEN_WITHOUT_BRACKETS>` with the application ID you found earlier.
+4. Find `var consolemaster`. Replace `<NAME_HERE_WITHOUT_BRACKETS>` with the name of the role you want to allow access to console commands.
+5. Go to the bottom of the script. Replace `<BOT_TOKEN_WITHOUT_BRACKETS>` with the application ID you found earlier.
 
 ### 5. Download and Install Node.js
 1. If you already have Node.js installed, skip to step six.
