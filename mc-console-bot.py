@@ -11,7 +11,7 @@ from discord.ext import commands
 # Your bot's token
 TOKEN = 'YOUR_DISCORD_BOT_TOKEN'
 
-# Minecraft server JAR file path
+# Minecraft server start script file path
 MINECRAFT_SERVER_PATH = 'C:/path/to/start.sh'
 
 # The role allowed to start the server
@@ -51,7 +51,7 @@ async def startserver(ctx):
         return
     
     if not os.path.exists(MINECRAFT_SERVER_PATH):
-        await ctx.send('Minecraft server JAR file not found.')
+        await ctx.send('Minecraft server start script not found.')
         return
         
     server_process = subprocess.Popen([MINECRAFT_SERVER_PATH], cwd=os.path.dirname(MINECRAFT_SERVER_PATH),
