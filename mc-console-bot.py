@@ -23,6 +23,10 @@ if TOKEN == 'YOUR_DISCORD_BOT_TOKEN':
     print('No bot token! Replace \'YOUR_DISCORD_BOT_TOKEN\' with a valid Discord bot token in mc-server-bot.py!\nCheck README.md for info.')
     exit(0)
 
+if not os.path.exists(MINECRAFT_SERVER_PATH):
+    print('Could not find start script! Replace \'C:/path/to/start.sh\' with your server start script in mc-server-bot.py!\nCheck README.md for info.')
+    exit(0)
+
 # Discord bot client
 intents = discord.Intents.default()
 intents.message_content = True
