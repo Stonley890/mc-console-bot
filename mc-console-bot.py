@@ -6,18 +6,22 @@ import os
 
 from discord.ext import commands
 
-### EDIT THIS BELOW ###
+#==-----------------------------------------==#
+# EDIT THE VALUES BELOW                       #
+# See README.md for more information          #
+#                                             #
+# Your bot's token                            #
+TOKEN = 'YOUR_DISCORD_BOT_TOKEN'              #
+#                                             #
+# Minecraft server start script file path     #
+MINECRAFT_SERVER_PATH = 'C:/path/to/start.sh' #
+#                                             #
+# The role allowed to start the server        #
+BOT_MASTER = 'ROLE_NAME'                      #
+#                                             #
+#==-----------------------------------------==#
 
-# Your bot's token
-TOKEN = 'YOUR_DISCORD_BOT_TOKEN'
-
-# Minecraft server start script file path
-MINECRAFT_SERVER_PATH = 'C:/path/to/start.sh'
-
-# The role allowed to start the server
-BOT_MASTER = 'ROLE_NAME'
-
-### EDIT THIS ABOVE ###
+# Below is the script. Do not edit this unless you know what you're doing!
 
 if TOKEN == 'YOUR_DISCORD_BOT_TOKEN':
     print('No bot token! Replace \'YOUR_DISCORD_BOT_TOKEN\' with a valid Discord bot token in mc-server-bot.py!\nCheck README.md for info.')
