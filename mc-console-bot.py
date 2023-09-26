@@ -37,7 +37,7 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='$', intents=intents)
 
-server_process: subprocess.Popen
+server_process: subprocess.Popen = None
 
 @bot.event
 async def on_ready():
@@ -54,7 +54,7 @@ async def startserver(ctx):
         await ctx.send('You don\'t have permission!')
         return
         
-    if server_process.poll is None:
+    if server_process and server_process.poll() is None:
         await ctx.send('Server is already running!')
         return
     
