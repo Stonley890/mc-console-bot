@@ -1,3 +1,4 @@
+import asyncio
 import re
 import threading
 import discord
@@ -23,96 +24,101 @@ BOT_MASTER = 'ROLE_NAME'                      #
 
 # Below is the script. Do not edit this unless you know what you're doing!
 
-if TOKEN == 'YOUR_DISCORD_BOT_TOKEN':
-    print('No bot token! Replace \'YOUR_DISCORD_BOT_TOKEN\' with a valid Discord bot token in mc-server-bot.py!\nCheck README.md for info.')
-    exit(0)
+SERVER_START_COMMAND = [MINECRAFT_SERVER_PATH]
 
-if not os.path.exists(MINECRAFT_SERVER_PATH):
-    print('Could not find start script! Replace \'C:/path/to/start.sh\' with your server start script in mc-server-bot.py!\nCheck README.md for info.')
-    exit(0)
-
-# Discord bot client
+# Init Discord bot
 intents = discord.Intents.default()
 intents.message_content = True
+bot = commands.Bot(command_prefix="$", intents=intents)
 
-bot = commands.Bot(command_prefix='$', intents=intents)
+# Init server process and status
+server_process = None
+server_running = False
 
-server_process: subprocess.Popen = None
+# Prevent concurrent access to server_process
+server_lock = threading.Lock()
 
 @bot.event
 async def on_ready():
-    print(f'Logged in as {bot.user.name} - {bot.user.id}')
+    print(f"Logged in as {bot.user.name} - {bot.user.id}")
 
 @bot.command()
 async def startserver(ctx):
-    
-    global server_process
-        
-    bot_master = discord.utils.get(ctx.guild.roles, name=BOT_MASTER)
-    
-    if bot_master not in ctx.author.roles:
-        await ctx.send('You don\'t have permission!')
-        return
-        
-    if server_process and server_process.poll() is None:
-        await ctx.send('Server is already running!')
-        return
-    
-    if not os.path.exists(MINECRAFT_SERVER_PATH):
-        await ctx.send('Minecraft server start script not found.')
-        return
-        
-    server_process = subprocess.Popen([MINECRAFT_SERVER_PATH], cwd=os.path.dirname(MINECRAFT_SERVER_PATH),
-                                      stdout=subprocess.PIPE,
-                                      stdin=subprocess.PIPE,
-                                      stderr=subprocess.PIPE,
-                                      universal_newlines=True)
-    await ctx.send('Starting Minecraft server...')
-    
-    while True:
-        line = server_process.stdout.readline()
-        if not line:
-            continue
-        
-        line = line.strip()
-        print(line)  # Optional: Print server output to console
-    
-        if re.search(r'\d{2}:\d{2}:\d{2} INFO]: Done \(\d+\.\d+s\)', line):
-            await ctx.send('Minecraft server is up and running!')
-            break
-                 
-    global input_thread
-       
-    input_thread = threading.Thread(target = wait_user_input, args=[server_process])
-    output_thread = threading.Thread(target = wait_console_output, args=[server_process])
-    
-    input_thread.start()
-    output_thread.start()
-    
-def wait_user_input(server_process: subprocess.Popen):
-    
-        while server_process.poll() is None:
-            try:
-                i = input()
-                print('Input: ' + i)
-                server_process.stdin.write(i + "\n")
-                server_process.stdin.flush()
-                
-            except KeyboardInterrupt:
-                print('Stopping Minecraft server...')
-                server_process.stdin.write('stop\n')
-                return
-                            
-def wait_console_output(server_process):
-    global input_thread
-    try:
-        while server_process.poll() is None:
-            o = server_process.stdout.readline()
-            print(o.strip())
-            
-        
-    except KeyboardInterrupt:
-        input_thread.join
+    global server_process, server_running
+
+    # Check if the user has the 'BOT_MASTER_ROLE_NAME' role
+    bot_master_role = discord.utils.get(ctx.guild.roles, name=BOT_MASTER)
+    if bot_master_role not in ctx.author.roles:
+        await ctx.send("You don't have permission to start the server.")
         return
 
-bot.run(TOKEN)
+    # Check if the server is already running
+    if server_running:
+        await ctx.send("The server is already running.")
+        return
+
+    # Check if the server start script exists
+    if not os.path.exists(MINECRAFT_SERVER_PATH):
+        await ctx.send("Minecraft server start script not found.")
+        return
+
+    # Start the server asynchronously
+    await ctx.send("Starting Minecraft server...")
+    try:
+        with server_lock:
+            server_process = await asyncio.create_subprocess_exec(
+                *SERVER_START_COMMAND,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+                stdin=asyncio.subprocess.PIPE,
+                cwd=os.path.dirname(MINECRAFT_SERVER_PATH),
+                universal_newlines=False,
+            )
+
+        # Set server_running flag
+        server_running = True
+
+        # Print server output to the console
+        while server_running:
+            stdout_line = await server_process.stdout.readline()
+            if not stdout_line:
+                break
+            stdout_line = stdout_line.decode("utf-8").strip()
+            print(stdout_line)
+
+            # Check if the line matches the server startup completion pattern
+            if re.search(r'\[\d{2}:\d{2}:\d{2} INFO\]: Done \(\d+\.\d+s\)!', stdout_line):
+                await ctx.send("Minecraft server is up and running!")
+
+        await ctx.send("Minecraft server has stopped.")
+        server_running = False
+    except Exception as e:
+        await ctx.send(f"An error occurred while starting the server: {e}")
+
+# Function to read console commands from the terminal
+def read_console_input():
+    global server_process, server_running
+    while True:
+        try:
+            if server_running:
+                command = input()
+                with server_lock:
+                    server_process.stdin.write((command + "\n").encode('utf-8'))
+                    
+        except KeyboardInterrupt:
+            # Stop the server
+            print("Stopping Minecraft server...")
+            server_process.terminate()
+            try:
+                asyncio.wait_for(server_process.wait(), timeout=30)
+            except asyncio.TimeoutError:
+                print("Server did not stop gracefully. Forcefully terminating.")
+                server_process.kill()
+
+if __name__ == "__main__":
+    # Start a thread to read console input
+    console_input_thread = threading.Thread(target=read_console_input)
+    console_input_thread.daemon = True
+    console_input_thread.start()
+    
+    bot.run(TOKEN)
