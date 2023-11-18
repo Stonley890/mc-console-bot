@@ -65,3 +65,10 @@ If it still doesn't work, you may need to specify how to run the script. If your
 ```sh
 #!/bin/bash
 ```
+
+#### **The bot says `[Errno 13] Permission denied`**
+Try relocating the `mc-console-bot.py` script inside your server folder and setting the variable locally.
+```python
+MINECRAFT_SERVER_PATH = './start.sh'
+```
+For more info, see https://github.com/Stonley890/mc-console-bot/issues/7.
