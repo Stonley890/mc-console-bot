@@ -19,7 +19,7 @@ Create a role that you want to allow access to console commands.
 1. Open the script using a text editor.
 2. Find `TOKEN`. Replace `YOUR_DISCORD_BOT_TOKEN` with the bot token you copied earlier.
 3. Find `MINECRAFT_SERVER_PATH`. Replace `C:/path/to/start.sh` with the full path to your start.bat, start.sh, or start.command file.
-   - _If you don't have a start command file, you can generate one at http://flags.sh/._
+   - _If you don't have a start command file, you can generate one at https://simplymc.art/flags/._
 4. Find `CONSOLE_MASTER`. Replace `ROLE_NAME` with the name of the role you want to allow to start the server.
 
 ### 5. Download and Install Python
