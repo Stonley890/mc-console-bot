@@ -24,7 +24,7 @@ Create a role that you want to allow access to console commands.
 
 ### 5. Download and Install Python
 1. If you already have Python installed, skip to step six.
-2. Go to https://www.python.org/downloads/ and either download the latest source release or (if using Linux) install `python3` using your package manager.
+2. Go to https://www.python.org/downloads/ and either download the latest source release or install `python3` using your package manager.
 3. Follow the installation steps.
 
 ### 6. Install required packages
@@ -38,7 +38,7 @@ python3 -m pip install -U discord.py
 ## Operation
 Let's go through the process of using the bot.
 
-1. Using the terminal or Windows Powershell, run `python3 path/to/mc-console-bot.py`, replacing **path/to/mc-console-bot.py** with the path to the script.
+1. Using the terminal, run `python3 path/to/mc-console-bot.py`, replacing **path/to/mc-console-bot.py** with the path to the script.
 2. If you see `Logged in as (bot username) - (bot client ID)` the bot has successfully connected.
 3. In your Discord server, use `$startserver` to start the server. Make sure you have the console master role.
 
