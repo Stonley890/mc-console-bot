@@ -53,18 +53,15 @@ That's it!
 
 ### Troubleshooting
 #### **The script throws errors when I run it.**
-Make sure you have a valid bot token.
+Make sure you have a valid bot token. Reread the setup steps to make sure you haven't missed anything.
 #### **What is a start script?**
-A start script is a script that runs your Minecraft server JAR file. You can generate one at http://flags.sh/.
+A start script is a script that runs your Minecraft server JAR file. You can generate one at [http://flags.sh/](https://www.birdflop.com/resources/flags/).
 #### **I have a valid start script, but the bot throws errors when I run $startserver**
 Make sure the path to your start script is formatted correctly. If the bot script and the start script are in the same folder, you can set `MINECRAFT_SERVER_PATH` to `./start.sh` (or whatever your script is called.)
 
 If you set a definite path make sure you prepend spaces with a backslash (\\): `/home/stonley890/Desktop/Minecraft\ Server/start.sh`. In this case, the `Minecraft Server` folder needs a \\ before the space.
 
-If it still doesn't work, you may need to specify how to run the script. If your start script ends in `.sh`, add a new line to the top of it:
-```sh
-#!/bin/bash
-```
+If it still doesn't work, create an [issue](https://github.com/Stonley890/mc-console-bot/issues) and I can help you.
 
 #### **The bot says `[Errno 13] Permission denied`**
 Try relocating the `mc-console-bot.py` script inside your server folder and setting the variable locally.
